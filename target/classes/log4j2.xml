@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+  <Properties>
+    <Property name="log"><API-KEY> {&quot;dd.trace_id&quot;:&quot;%X{dd.trace_id}&quot;,&quot;dd.span_id&quot;:&quot;%X{dd.span_id}&quot;,&quot;ddtags&quot;:&quot;env:my-env,user:my-user&quot;,&quot;hostname&quot;:&quot;test_host&quot;,&quot;ddsource&quot;:&quot;java&quot;,&quot;service&quot;:&quot;java_tcp_logs&quot;,&quot;thread&quot;:&quot;%t&quot;,&quot;level&quot;:&quot;%p&quot;,&quot;loggerName&quot;:&quot;%c&quot;,&quot;message&quot;:&quot;%m&quot;}%n</Property>
+  	
+  </Properties>
+  <Appenders>
+    <Socket name="socket" protocol="SSL" host="intake.logs.datadoghq.com" port="10516">
+			<PatternLayout pattern="${sys:log}"/>
+    </Socket>   
+        <Console name="console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%replace{%msg}{[\r\n]}{ } %n"/>
+        </Console>          
+  </Appenders>
+  <Loggers>
+    <Root level="debug">
+      <AppenderRef ref="socket"/>
+      <AppenderRef ref="console"/>
+    </Root>
+  </Loggers>
+</Configuration>
